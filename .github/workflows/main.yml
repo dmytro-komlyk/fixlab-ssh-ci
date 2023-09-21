@@ -45,7 +45,7 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           script: |
             echo ${{ secrets.REGISTRY_TOKEN  }} | docker login ghcr.io -u ${{ github.repository_owner }}  --password-stdin
-            docker compose stop
-            docker compose rm -f
+            docker compose -f docker-compose.prod-ci.yml -p prod stop
+            docker compose -f docker-compose.prod-ci.yml -p prod rm -f
             docker compose -f docker-compose.prod-ci.yml -p prod pull
             docker compose -f docker-compose.prod-ci.yml -p prod up -d
