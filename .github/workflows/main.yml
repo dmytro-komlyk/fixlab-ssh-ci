@@ -35,6 +35,16 @@ jobs:
           push: true
           tags: |
             ghcr.io/${{ github.repository_owner }}/prod-fixlab-server:latest
+      
+            
+      - name: "Build&Deploy Client"
+        uses: docker/build-push-action@v4
+        with:
+          context: ./client
+          target: production
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/prod-fixlab-client:latest
 
       - name: "Run deploy on SSH"
         uses: appleboy/ssh-action@v1.0.0
@@ -45,8 +55,7 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           script: |
             cd test
-            echo ${{ secrets.REGISTRY_TOKEN  }} | docker login ghcr.io -u ${{ github.repository_owner }}  --password-stdin
+            echo ${{ secrets.REGISTRY_TOKEN  }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
             docker compose -f docker-compose.prod-ci.yml -p fix-lab-prod down
-            docker rmi $(docker images -a -q)
             docker compose -f docker-compose.prod-ci.yml -p fix-lab-prod pull
             docker compose -f docker-compose.prod-ci.yml -p fix-lab-prod up -d
