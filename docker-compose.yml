@@ -10,7 +10,7 @@ services:
     volumes:
       - ./database/data:/data/db
     ports:
-      - 30004:27017
+      - 27017:27017
     networks:
       - backend
 
