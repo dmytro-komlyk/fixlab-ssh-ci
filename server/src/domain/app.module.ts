@@ -2,12 +2,12 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 
-import { GadgetsModule } from './gadgets/gadgets.module';
+import { AuthModule } from './auth/auth.module';
 import { BrandsModule } from './brands/brands.module';
 import { ContactsModule } from './contacts/contacts.module';
-import { UsersModule } from './users/users.module';
-import { AuthModule } from './auth/auth.module';
+import { GadgetsModule } from './gadgets/gadgets.module';
 import { IssuesModule } from './issues/issues.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -15,23 +15,25 @@ import { IssuesModule } from './issues/issues.module';
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: async () => ({
-        uri: 'mongodb://mongo:27017',
-        dbName: 'fixlab',
-        auth: {
-          username: 'root',
-          password: 'admin123',
-        },
-      }),
+      useFactory: async (config: ConfigService) => {
+        return ({
+          uri: config.get<string>('MONGO_DB_LINK'),
+          dbName: config.get<string>('MONGO_DB_NAME'),
+          auth: {
+            username: config.get<string>('MONGO_DB_AUTH_USERNAME'),
+            password: config.get<string>('MONGO_DB_AUTH_PASSWORD')
+          }
+        })
+    }
     }),
-    GadgetsModule,
-    BrandsModule,
     UsersModule,
     AuthModule,
-    ContactsModule,
+    GadgetsModule,
     IssuesModule,
+    BrandsModule,
+    ContactsModule
   ],
   controllers: [],
-  providers: [],
+  providers: []
 })
 export class AppModule {}

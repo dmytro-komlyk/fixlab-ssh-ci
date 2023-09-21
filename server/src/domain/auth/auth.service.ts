@@ -1,14 +1,11 @@
-import {
-  Injectable,
-  NotFoundException,
-  NotAcceptableException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+
 import * as bcrypt from 'bcrypt';
 
 import { UsersService } from 'domain/users/users.service';
+
 import { User } from 'domain/users/schemas/user.schema';
-import { PasswordEncryptHelper } from 'helpers/password-encrypt.helper';
 
 import { LoginDto } from './dto/login.dto';
 
@@ -16,7 +13,7 @@ import { LoginDto } from './dto/login.dto';
 export class AuthService {
   constructor(
     private readonly usersService: UsersService,
-    private readonly jwtService: JwtService,
+    private readonly jwtService: JwtService
   ) {}
 
   public async login(dto: LoginDto): Promise<string> {
@@ -27,7 +24,7 @@ export class AuthService {
   }
 
   public async validatePassword({ login, password }: LoginDto): Promise<User> {
-    const user = await this.usersService.findUserByLogin(login);
+    const user = await this.usersService.findOneWithPassword(login);
 
     if (!user) throw new NotFoundException('User was not found');
 

@@ -1,33 +1,32 @@
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
+
 import { useContainer } from 'class-validator';
 import { join } from 'path';
 
 import { AppModule } from 'domain/app.module';
-import { SwaggerHelper } from 'helpers/swagger.helper';
-import { MongoErrorsFilter } from 'filters/mongo-errors.filter';
 
-const PORT = 3000;
+import { MongoErrorsFilter } from 'filters/mongo-errors.filter';
+import { SwaggerHelper } from 'helpers/swagger.helper';
+
+import { PREFIX } from 'constants/routes.constants';
 
 (async () => {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
-  app.enableCors({ origin: '*' });
-  app.setGlobalPrefix('api');
+  app.setGlobalPrefix(PREFIX);
+
   app.useGlobalFilters(new MongoErrorsFilter());
-  app.useGlobalPipes(new ValidationPipe());
-  app.enableVersioning({ type: VersioningType.URI });
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+
   app.useStaticAssets(join(__dirname, '..', 'public'), {
-    prefix: '/public',
+    prefix: '/public'
   });
 
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
-  const swagger = new SwaggerHelper();
-  swagger.init(app);
+  SwaggerHelper(app);
 
-  await app.listen(PORT, () => {
-    console.log(`🚀 Application running at port ${PORT}`);
-  });
+  await app.listen(process.env.PORT);
 })();

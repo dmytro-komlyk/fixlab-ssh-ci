@@ -15,10 +15,20 @@ import {
 
 import { MetadataDto } from 'shared/metadata.dto';
 
-export class UpdateBrandDto {
+export class UpdateGadgetDto {
   @ApiProperty({
-    example: 'Apple',
-    description: 'Brand title'
+    example: 'phone',
+    description: 'Gadget URL'
+  })
+  @IsOptional()
+  @IsDefined()
+  @IsNotEmpty()
+  @IsString()
+  readonly slug?: string;
+
+  @ApiProperty({
+    example: 'Phone',
+    description: 'Gadget title'
   })
   @IsOptional()
   @IsDefined()
@@ -30,8 +40,8 @@ export class UpdateBrandDto {
   readonly title?: string;
 
   @ApiProperty({
-    example: 'We repair Apple gadgets',
-    description: 'Brand description'
+    example: 'Apple gadgets...',
+    description: 'Gadgets description'
   })
   @IsOptional()
   @IsDefined()
@@ -40,32 +50,12 @@ export class UpdateBrandDto {
   readonly description?: string;
 
   @ApiProperty({
-    example: 'xiaomi',
-    description: 'Brand URL'
-  })
-  @IsOptional()
-  @IsDefined()
-  @IsNotEmpty()
-  @IsString()
-  readonly slug?: string;
-
-  @ApiProperty({
     example: false,
     description: 'If false, will not appear on client side lists'
   })
   @IsOptional()
   @IsBoolean({ message: 'field must be a boolean' })
   readonly isActive?: boolean;
-
-  @ApiProperty({
-    example: 'Reparing Apple phones...',
-    description: 'article'
-  })
-  @IsOptional()
-  @IsDefined()
-  @IsNotEmpty()
-  @IsString()
-  readonly article?: string;
 
   @ApiProperty({
     type: MetadataDto

@@ -1,6 +1,14 @@
-import { HydratedDocument, Document, Types } from 'mongoose';
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import {
+  Prop,
+  Schema,
+  SchemaFactory
+} from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
+import {
+  Document,
+  HydratedDocument,
+  Types
+} from 'mongoose';
 
 import MetadataProps from 'shared/metadata-props.schema';
 
@@ -11,47 +19,42 @@ class Brand extends Document {
   @ApiProperty({ example: '64ef4383e46e72721c03090e' })
   @Prop({
     type: Types.ObjectId,
-    auto: true,
+    auto: true
   })
-  readonly id: string;
-
-  @ApiProperty({ example: true })
-  @Prop({ default: false, required: false })
-  readonly isActive: boolean;
+  readonly _id: string;
 
   @ApiProperty({ example: 'apple' })
-  @Prop({ unique: true, set: (v: string) => v?.toLowerCase() })
+  @Prop({
+    type: String,
+    unique: true,
+    required: true,
+    set: (v: string) => v?.trim().toLowerCase()
+  })
   readonly slug: string;
 
+  @ApiProperty({ example: true })
+  @Prop({ type: Boolean, default: false })
+  readonly isActive: boolean;
+
   @ApiProperty({ example: 'Apple' })
-  @Prop()
+  @Prop({ type: String, required: true })
   readonly title: string;
 
   @ApiProperty({ example: 'public/brands/icon.svg' })
-  @Prop({ required: false, default: null })
+  @Prop({ type: String, default: null })
   readonly icon: string;
 
-  @ApiProperty({ example: 'public/brands/image.svg' })
-  @Prop({ required: false, default: null })
-  readonly image: string;
-
-  @ApiProperty({ example: 'public/brands/image.svg', isArray: true })
-  @Prop({ required: false, default: null })
-  readonly gallery: string[];
+  @ApiProperty({ example: 'Reparing Apple phones...' })
+  @Prop({ type: String })
+  readonly article: string;
 
   @ApiProperty({
-    type: MetadataProps,
+    type: MetadataProps
   })
-  @Prop({ type: MetadataProps, required: true })
+  @Prop({ type: MetadataProps })
   readonly metadata: MetadataProps;
 }
 
 const BrandSchema = SchemaFactory.createForClass(Brand);
 
-BrandSchema.method('toJSON', function () {
-  const { _id, ...object } = this.toObject();
-  object.id = _id;
-  return object;
-});
-
-export { BrandSchema, Brand };
+export { Brand, BrandSchema };
