@@ -1,0 +1,67 @@
+version: '3.8'
+services:
+  mongo:
+    image: mongo:6.0
+    container_name: mongo
+    hostname: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=admin123
+    volumes:
+      - ./database:/data/db
+    ports:
+      - 27017:27017
+    networks:
+      - backend
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-ui
+    restart: unless-stopped
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongo
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=root
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=admin123
+      - ME_CONFIG_MONGODB_URL=mongodb://root:admin123@mongo:27017/
+      - ME_CONFIG_BASICAUTH_USERNAME=mexpress
+      - ME_CONFIG_BASICAUTH_PASSWORD=mexpress
+    ports:
+      - 8081:8081
+    networks:
+      - backend
+    links:
+      - mongo:mongo
+    depends_on:
+      - mongo
+
+  server:
+    image: ghcr.io/dmytro-komlyk/prod-fixlab-server:latest
+    container_name: server
+    restart: unless-stopped
+    env_file: ./server/.env.example
+    environment:
+      - NODE_ENV=production
+      - MONGO_DB_LINK=mongodb://mongo:27017
+      - MONGO_DB_NAME=fixlab-db
+      - MONGO_DB_AUTH_USERNAME=root
+      - MONGO_DB_AUTH_PASSWORD=admin123
+      - SECRET=4u5I577c6zTbw7za
+    ports:
+      - 30000:3000
+    networks:
+      - frontend
+      - backend
+    depends_on:
+      - mongo
+    links:
+      - mongo
+
+
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge
+
+volumes:
+  database:
