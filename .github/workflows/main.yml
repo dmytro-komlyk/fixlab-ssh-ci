@@ -46,7 +46,7 @@ jobs:
           script: |
             cd test
             echo ${{ secrets.REGISTRY_TOKEN  }} | docker login ghcr.io -u ${{ github.repository_owner }}  --password-stdin
-            docker compose -f docker-compose.prod-ci.yml stop
-            docker compose -f docker-compose.prod-ci.yml rm -f
-            docker compose -f docker-compose.prod-ci.yml -p prod pull
-            docker compose -f docker-compose.prod-ci.yml -p prod up -d
+            docker compose -f docker-compose.prod-ci.yml -p fix-lab-prod down
+            docker rmi $(docker images -a -q)
+            docker compose -f docker-compose.prod-ci.yml -p fix-lab-prod pull
+            docker compose -f docker-compose.prod-ci.yml -p fix-lab-prod up -d
