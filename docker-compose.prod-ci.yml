@@ -38,9 +38,9 @@ services:
     image: ghcr.io/dmytro-komlyk/prod-fixlab-server:latest
     container_name: server
     restart: unless-stopped
-    env_file: ./server/.env.example
     environment:
       - NODE_ENV=production
+      - PORT=3000
       - MONGO_DB_LINK=mongodb://mongo:27017
       - MONGO_DB_NAME=fixlab-db
       - MONGO_DB_AUTH_USERNAME=root
