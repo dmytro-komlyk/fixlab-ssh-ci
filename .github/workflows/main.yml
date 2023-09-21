@@ -25,7 +25,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.REGISTRY_TOKEN }}
       
       - name: "Build&Deploy Server"
         uses: docker/build-push-action@v4
@@ -44,7 +44,7 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
-            echo ${{ secrets.GITHUB_TOKEN  }} | docker login ghcr.io -u ${{ github.repository_owner }}  --password-stdin
+            echo ${{ secrets.REGISTRY_TOKEN  }} | docker login ghcr.io -u ${{ github.repository_owner }}  --password-stdin
             docker compose stop
             docker compose rm -f
             docker compose -f docker-compose.prod-ci.yml -p prod pull
