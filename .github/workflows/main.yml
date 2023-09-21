@@ -31,7 +31,6 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: ./server
-          file: ./server/Dockerfile
           target: production
           push: true
           tags: |
@@ -45,7 +44,7 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
-            docker login ghcr.io --username ${{ github.repository_owner }} --password-stdin ${{ secrets.GITHUB_TOKEN  }}
+            echo ${{ secrets.GITHUB_TOKEN  }} | docker login ghcr.io -u ${{ github.repository_owner }}  --password-stdin
             docker compose stop
             docker compose rm -f
             docker compose -f docker-compose.prod-ci.yml -p prod pull
