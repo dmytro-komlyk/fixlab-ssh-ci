@@ -14,9 +14,10 @@ RUN npm run build
 FROM node:18-alpine as production
 
 WORKDIR /app/server
+ENV NODE_ENV=production
 COPY package*.json ./
 COPY tsconfig*.json ./
-ENV NODE_ENV=production
+COPY . .
 RUN npm install
 COPY --from=runner /app/server/dist ./dist
 COPY --from=runner /app/server/public ./public
