@@ -56,7 +56,6 @@ services:
     links:
       - mongo
 
-
 networks:
   frontend:
     driver: bridge
