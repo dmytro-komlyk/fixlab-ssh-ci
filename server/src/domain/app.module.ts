@@ -16,15 +16,15 @@ import { UsersModule } from './users/users.module';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (config: ConfigService) => {
-        return ({
+        return {
           uri: config.get<string>('MONGO_DB_LINK'),
           dbName: config.get<string>('MONGO_DB_NAME'),
           auth: {
             username: config.get<string>('MONGO_DB_AUTH_USERNAME'),
             password: config.get<string>('MONGO_DB_AUTH_PASSWORD')
           }
-        })
-    }
+        };
+      }
     }),
     UsersModule,
     AuthModule,
