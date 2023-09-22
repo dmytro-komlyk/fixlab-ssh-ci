@@ -1,12 +1,12 @@
-version: '3.8'
+version: "3.8"
 services:
   mongo:
     image: mongo:6.0
     container_name: mongo
     hostname: mongo
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=admin123
+      - MONGO_INITDB_ROOT_USERNAME=
+      - MONGO_INITDB_ROOT_PASSWORD=
     volumes:
       - ./database/data:/data/db
     ports:
@@ -20,11 +20,11 @@ services:
     restart: unless-stopped
     environment:
       - ME_CONFIG_MONGODB_SERVER=mongo
-      - ME_CONFIG_MONGODB_ADMINUSERNAME=root
-      - ME_CONFIG_MONGODB_ADMINPASSWORD=admin123
-      - ME_CONFIG_MONGODB_URL=mongodb://root:admin123@mongo:27017/
-      - ME_CONFIG_BASICAUTH_USERNAME=mexpress
-      - ME_CONFIG_BASICAUTH_PASSWORD=mexpress
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=
+      - ME_CONFIG_MONGODB_URL=
+      - ME_CONFIG_BASICAUTH_USERNAME=
+      - ME_CONFIG_BASICAUTH_PASSWORD=
     ports:
       - 8081:8081
     networks:
@@ -40,13 +40,14 @@ services:
     restart: unless-stopped
     env_file: ./server/.env.example
     environment:
-      - NODE_ENV=production
       - PORT=3000
-      - MONGO_DB_LINK=mongodb://mongo:27017
-      - MONGO_DB_NAME=fixlab-db
-      - MONGO_DB_AUTH_USERNAME=root
-      - MONGO_DB_AUTH_PASSWORD=admin123
-      - SECRET=4u5I577c6zTbw7za
+      - NODE_ENV=production
+      - MONGO_DB_LINK=
+      - MONGO_DB_NAME=
+      - MONGO_DB_AUTH_USERNAME=
+      - MONGO_DB_AUTH_PASSWORD=
+      - SECRET=
+      - D_ADMIN_KEY=
     ports:
       - 30000:3000
     networks:
@@ -64,9 +65,9 @@ services:
     env_file: ./client/.env.example
     environment:
       - NODE_ENV=production
-      - NEXT_PUBLIC_SERVER_API_KEY=47174ee70e4e144d3de4212f9ce09a004315772bae5b648c067bbcd0c54ca5a6848ed744867cfddcce63ec11f02e433908ae85463a3c8f16cf03ace88ae60434e7f7bf5ff15e3aece0ec1ddda294504033c12d38176ad5fbb86655ff8e8b6f544ee05f54c93435dfdd264223d5c0733e4816bbeffca7d27d34e71f83fbf84848
+      - NEXT_PUBLIC_SERVER_API_KEY=
     ports:
-      - '30001:3001'
+      - "30001:3001"
     networks:
       - frontend
 
