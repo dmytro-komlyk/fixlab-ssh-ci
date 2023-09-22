@@ -14,6 +14,10 @@
     "lint:server": "cd server && npm run lint",
     "lint:admin": "cd admin && npm run lint",
     "lint": "npm run lint:client && npm run lint:admin && npm run lint:server",
+    "build:server": "cd server && npm run build",
+    "build:admin": "cd admin && npm run build",
+    "build:client": "cd client && npm run build",
+    "build": "npm run build:client && npm run build:server && npm run build:admin",
     "prepare": "husky install"
   },
   "author": "",
