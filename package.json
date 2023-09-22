@@ -10,6 +10,10 @@
     "start:server": "cd server && npm run start",
     "start:client": "cd client && npm run start",
     "start:admin": "cd admin && npm run start",
+    "lint:client": "cd client && npm run lint",
+    "lint:server": "cd server && npm run lint",
+    "lint:admin": "cd admin && npm run lint",
+    "lint": "npm run lint:client && npm run lint:admin && npm run lint:server",
     "prepare": "husky install"
   },
   "author": "",
