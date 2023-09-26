@@ -1,4 +1,13 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Header,
+  Param,
+  Patch,
+  Post
+} from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Public } from 'decorators/public.decorator';
 
@@ -29,6 +38,8 @@ export class ContactsController {
   @ApiOperation({ summary: 'find all Contacts' })
   @ApiResponse({ status: 200, type: Contact, isArray: true })
   @Get('/all')
+  @Header('Access-Control-Expose-Headers', 'Content-Range')
+  @Header('Content-Range', 'posts 0-24/319')
   public async findAll(): Promise<Contact[]> {
     return await this.contactsService.findAll();
   }
