@@ -8,29 +8,29 @@ import {
   useRecordContext,
 } from "react-admin";
 
-const TitleBrand = () => {
+const TitleContact = () => {
   const record = useRecordContext();
-  return <span>Бренд {record ? `"${record.title}"` : ""}</span>;
+  return <span>Контакт {record ? `"${record.title}"` : ""}</span>;
 };
 
-const ListBrands = () => {
+const ListContacts = () => {
   return (
-    <List title="Brands">
+    <List title="Contacts">
       <Datagrid rowClick="edit"></Datagrid>
     </List>
   );
 };
 
-const EditBrand = () => (
-  <Edit title={<TitleBrand />}>
+const EditContact = () => (
+  <Edit title={<TitleContact />}>
     <TabbedForm></TabbedForm>
   </Edit>
 );
 
-const CreateBrand = () => (
+const CreateContact = () => (
   <Create>
     <TabbedForm></TabbedForm>
   </Create>
 );
 
-export { CreateBrand, EditBrand, ListBrands };
+export { CreateContact, EditContact, ListContacts };

@@ -15,6 +15,10 @@ import { PREFIX } from 'constants/routes.constants';
 (async () => {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
+  app.enableCors({
+    origin: '*'
+  });
+
   app.setGlobalPrefix(PREFIX);
 
   app.useGlobalFilters(new MongoErrorsFilter());
