@@ -2,6 +2,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 
+// import { AdminHeadersMiddleware } from './middlewares/adminHeaders.middleware';
 import { useContainer } from 'class-validator';
 import { join } from 'path';
 
@@ -14,6 +15,10 @@ import { PREFIX } from 'constants/routes.constants';
 
 (async () => {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+
+  app.enableCors({
+    origin: '*'
+  });
 
   app.setGlobalPrefix(PREFIX);
 
