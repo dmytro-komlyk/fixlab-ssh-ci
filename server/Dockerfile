@@ -20,7 +20,7 @@ COPY tsconfig*.json ./
 COPY . .
 RUN npm install
 COPY --from=runner /app/server/dist ./dist
-COPY --from=runner /app/server/public ./public
+
 EXPOSE 3000
 
 CMD ["npm", "run", "start:prod"]
