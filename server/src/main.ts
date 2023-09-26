@@ -2,7 +2,6 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 
-// import { AdminHeadersMiddleware } from './middlewares/adminHeaders.middleware';
 import { useContainer } from 'class-validator';
 import { join } from 'path';
 
