@@ -17,7 +17,7 @@ import { UsersModule } from './users/users.module';
       inject: [ConfigService],
       useFactory: async (config: ConfigService) => ({
         uri: config.get<string>('MONGO_DB_LINK'),
-        dbName: config.get<string>('MONGO_DB_NAME')
+        dbName: config.get<string>('MONGO_DB_NAME'),
         auth: {
           username: config.get<string>('MONGO_DB_AUTH_USERNAME'),
           password: config.get<string>('MONGO_DB_AUTH_PASSWORD')
