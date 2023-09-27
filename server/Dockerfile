@@ -17,8 +17,9 @@ WORKDIR /app/server
 ENV NODE_ENV=production
 COPY package*.json ./
 COPY tsconfig*.json ./
-COPY . .
+COPY .env.example ./.env
 RUN npm install
+COPY . .
 COPY --from=runner /app/server/dist ./dist
 
 EXPOSE 3000
