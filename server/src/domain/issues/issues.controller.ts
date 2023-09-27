@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Header,
   NotFoundException,
   Param,
   Patch,
@@ -59,6 +60,8 @@ export class IssuesController {
   @ApiOperation({ summary: 'get all Issue data' })
   @ApiResponse({ status: 200, type: Issue, isArray: true })
   @Get('/all')
+  @Header('Access-Control-Expose-Headers', 'Content-Range')
+  @Header('Content-Range', 'posts 0-24/319')
   public async findAllIssues(): Promise<Issue[]> {
     return await this.issuesService.findAll();
   }

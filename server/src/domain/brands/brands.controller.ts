@@ -4,6 +4,7 @@ import {
   Delete,
   FileTypeValidator,
   Get,
+  Header,
   NotFoundException,
   Param,
   ParseFilePipe,
@@ -15,7 +16,6 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Public } from 'decorators/public.decorator';
-import { Express } from 'express';
 
 import { ISuccessDelete } from 'interfaces/success-delete.interface';
 
@@ -60,6 +60,8 @@ export class BrandsController {
   @ApiOperation({ summary: 'get Brands data, auth reqiured*' })
   @ApiResponse({ status: 200, type: Brand, isArray: true })
   @Get('/all')
+  @Header('Access-Control-Expose-Headers', 'Content-Range')
+  @Header('Content-Range', 'posts 0-24/319')
   public async findAllBrands(): Promise<Brand[]> {
     return await this.brandsService.findAll();
   }
